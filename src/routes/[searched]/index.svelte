@@ -21,7 +21,6 @@
 		);
 		const res = await resultsFetched.json();
 		songsResults = res.results;
-		console.log(songsResults);
 	});
 </script>
 

@@ -1,29 +1,23 @@
-<script lang="ts">
-	import { page } from '$app/stores';
-	import { onMount } from 'svelte';
-
-	interface SongType {
-		trackName: string;
-		artworkUrl100: string;
-		previewUrl: string;
-	}
-
-	let song: SongType = {
-		trackName: '',
-		artworkUrl100: '',
-		previewUrl: ''
-	};
-
-	onMount(async () => {
-		let songId = $page.params.songId;
+<script context="module">
+	// @ts-ignore
+	export async function load({ params }) {
+		let songId = params.songId;
 
 		const resultsFetched = await fetch(
 			`https://itunes.apple.com/search?term=${songId}&entity=song`
 		);
 		const res = await resultsFetched.json();
-		song = res.results[0];
-		console.log(song);
-	});
+		const song = res.results[0];
+
+		return { props: { song } };
+	}
+</script>
+
+<script>
+	/**
+	 * @type {{ trackName: any; artworkUrl100: any; previewUrl: any; }}
+	 */
+	export let song;
 </script>
 
 <section
